@@ -1,8 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2020 Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
+ * 
+ * Derived from: https://github.com/nextcloud/workflow_pdf_converter
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,9 +23,9 @@
  *
  */
 
-namespace OCA\WorkflowPDFConverter\AppInfo;
+namespace OCA\WorkflowIFCConverter\AppInfo;
 
-use OCA\WorkflowPDFConverter\Operation;
+use OCA\WorkflowIFCConverter\Operation;
 use OCP\WorkflowEngine\IManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -33,11 +35,11 @@ class Application extends \OCP\AppFramework\App {
 	 * Application constructor.
 	 */
 	public function __construct() {
-		parent::__construct('workflow_pdf_converter');
+		parent::__construct('workflow_ifc_converter');
 		\OC::$server->getEventDispatcher()->addListener(IManager::EVENT_NAME_REG_OPERATION, function (GenericEvent $event) {
 			$operation = \OC::$server->query(Operation::class);
 			$event->getSubject()->registerOperation($operation);
-			\OC_Util::addScript('workflow_pdf_converter', 'workflow_pdf_converter');
+			\OC_Util::addScript('workflow_ifc_converter', 'workflow_ifc_converter');
 		});
 	}
 

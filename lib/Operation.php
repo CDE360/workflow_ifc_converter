@@ -1,8 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2020 Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
+ * 
+ * Derived from: https://github.com/nextcloud/workflow_pdf_converter
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,7 +23,7 @@
  *
  */
 
-namespace OCA\WorkflowPDFConverter;
+namespace OCA\WorkflowIFCConverter;
 
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowPDFConverter\BackgroundJobs\Convert;
@@ -64,15 +66,15 @@ class Operation implements ISpecificOperation {
 	}
 
 	public function getDisplayName(): string {
-		return $this->l->t('PDF conversion');
+		return $this->l->t('IFC conversion');
 	}
 
 	public function getDescription(): string {
-		return $this->l->t('Convert documents into the PDF format on upload and write.');
+		return $this->l->t('Convert documents from IFC format on upload and write.');
 	}
 
 	public function getIcon(): string {
-		return \OC::$server->getURLGenerator()->imagePath('workflow_pdf_converter', 'app.svg');
+		return \OC::$server->getURLGenerator()->imagePath('workflow_ifc_converter', 'app.svg');
 	}
 
 	public function isAvailableForScope(int $scope): bool {
@@ -98,9 +100,9 @@ class Operation implements ISpecificOperation {
 				return;
 			}
 
-			// avoid converting pdfs into pdfs - would become infinite
+			// avoid converting xkts into xkts - would become infinite
 			// also some types we know would not succeed
-			if($node->getMimetype() === 'application/pdf'
+			if($node->getMimetype() === 'model/xkt-binary'
 				|| $node->getMimePart() === 'video'
 				|| $node->getMimePart() === 'audio'
 			) {
@@ -108,25 +110,25 @@ class Operation implements ISpecificOperation {
 			}
 
 			$matches = $ruleMatcher->getFlows(false);
-			$originalFileMode = $targetPdfMode = null;
+			$originalFileMode = $targetIFCMode = null;
 			foreach($matches as $match) {
 				$fileModes = explode(';', $match['operation']);
 				if($originalFileMode !== 'keep') {
 					$originalFileMode = $fileModes[0];
 				}
-				if($targetPdfMode !== 'preserve') {
-					$targetPdfMode = $fileModes[1];
+				if($targetIFCMode !== 'preserve') {
+					$targetIFCMode = $fileModes[1];
 				}
-				if($originalFileMode === 'keep' && $targetPdfMode === 'preserve') {
+				if($originalFileMode === 'keep' && $targetIFCMode === 'preserve') {
 					// most conservative setting, no need to look into other modes
 					break;
 				}
 			}
-			if(!empty($originalFileMode) && !empty($targetPdfMode)) {
+			if(!empty($originalFileMode) && !empty($targetIFCMode)) {
 				$this->jobList->add(Convert::class, [
 					'path' => $node->getPath(),
 					'originalFileMode' => $originalFileMode,
-					'targetPdfMode' => $targetPdfMode,
+					'targetIFCMode' => $targetIFCMode,
 				]);
 			}
 		} catch(\OCP\Files\NotFoundException $e) {

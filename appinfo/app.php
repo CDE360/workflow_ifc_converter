@@ -1,8 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2020 Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
+ * 
+ * Derived from: https://github.com/nextcloud/workflow_pdf_converter
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,4 +23,4 @@
  *
  */
 
-$app = \OC::$server->query(\OCA\WorkflowPDFConverter\AppInfo\Application::class);
+$app = \OC::$server->query(\OCA\WorkflowIFCConverter\AppInfo\Application::class);

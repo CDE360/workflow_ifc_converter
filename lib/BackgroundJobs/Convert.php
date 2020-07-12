@@ -1,9 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2020 Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
  *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Gonzalo Aguilar Delgado <gaguilar@level2crm.com>
+ * 
+ * Derived from: https://github.com/nextcloud/workflow_pdf_converter
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,7 +23,7 @@
  *
  */
 
-namespace OCA\WorkflowPDFConverter\BackgroundJobs;
+namespace OCA\WorkflowIFCConverter\BackgroundJobs;
 
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -59,12 +60,12 @@ class Convert extends \OC\BackgroundJob\QueuedJob {
 	protected function run($argument) {
 		$command = $this->getCommand();
 		if ($command === null) {
-			$this->logger->error('Can not find office path. Please make sure to configure "preview_libreoffice_path" in your config file.');
+			$this->logger->error('Can not find converter path. Please make sure to configure "preview_libreoffice_path" in your config file.');
 		}
 
 		$path = (string)$argument['path'];
 		$originalFileMode = (string)$argument['originalFileMode'];
-		$targetPdfMode = (string)$argument['targetPdfMode'];
+		$targetIFCMode = (string)$argument['targetIFCMode'];
 
 		$pathSegments = explode('/', $path, 4);
 		$dir = dirname($path);
@@ -96,7 +97,7 @@ class Convert extends \OC\BackgroundJob\QueuedJob {
 		if ($exitCode !== 0) {
 			$this->logger->error("could not convert {file}, reason: {out}",
 				[
-					'app' => 'workflow_pdf_converter',
+					'app' => 'workflow_ifc_converter',
 					'file' => $node->getPath(),
 					'out' => $out
 				]
@@ -104,16 +105,16 @@ class Convert extends \OC\BackgroundJob\QueuedJob {
 			return;
 		}
 
-		$newTmpPath = pathinfo($tmpPath, PATHINFO_FILENAME) . '.pdf';
+		$newTmpPath = pathinfo($tmpPath, PATHINFO_FILENAME) . '.xkt';
 		$newFileBaseName = pathinfo($file, PATHINFO_FILENAME);
-		$newFileName = $newFileBaseName . '.pdf';
+		$newFileName = $newFileBaseName . '.xkt';
 
 		$folder = $node->getParent();
 
 		$index = 0;
-		while ($targetPdfMode === 'preserve' && $folder->nodeExists($newFileName)) {
+		while ($targetIFCMode === 'preserve' && $folder->nodeExists($newFileName)) {
 			$index++;
-			$newFileName = $newFileBaseName . ' (' . $index . ').pdf';
+			$newFileName = $newFileBaseName . ' (' . $index . ').xkt';
 		}
 
 		$view->fromTmpFile($tmpDir . '/' . $newTmpPath, $newFileName);

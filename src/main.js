@@ -1,8 +1,8 @@
-import ConvertToPdf from './ConvertToPdf'
+import convertFromIFC from './ConvertFromIFC'
 
 OCA.WorkflowEngine.registerOperator({
-	id: 'OCA\\WorkflowPDFConverter\\Operation',
+	id: 'OCA\\WorkflowIFCConverter\\Operation',
 	operation: 'keep;preserve',
-	options: ConvertToPdf,
-	color: '#dc5047'
+	options: convertFromIFC,
+	color: '#dc5047',
 })

@@ -1,8 +1,8 @@
 {
-	"name": "workflow_pdf_converter",
-	"description": "Workflow for converting to pdf",
-	"version": "1.5.0",
-	"author": "Julius Härtl <jus@bitgrid.net>",
+	"name": "workflow_ifc_converter",
+	"description": "Workflow for converting from ifc",
+	"version": "1.0.0",
+	"author": "Gonzalo Aguilar Delgado <gaguilar@level2crm.com>",
 	"license": "agpl",
 	"private": true,
 	"scripts": {

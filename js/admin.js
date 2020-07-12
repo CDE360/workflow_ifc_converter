@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2020 Gonzalo Aguilar <gaguilar@level2crm.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,15 +19,15 @@
  */
 
 (function() {
-	OCA.WorkflowPDFConverter = OCA.WorkflowPDFConverter || {};
+	OCA.WorkflowIFCConverter = OCA.WorkflowIFCConverter || {};
 
 	/**
-	 * @class OCA.WorkflowPDFConverter.Operation
+	 * @class OCA.WorkflowIFCConverter.Operation
 	 */
-	OCA.WorkflowPDFConverter.Operation =
+	OCA.WorkflowIFCConverter.Operation =
 		OCA.WorkflowEngine.Operation.extend({
 			defaults: {
-				'class': 'OCA\\WorkflowPDFConverter\\Operation',
+				'class': 'OCA\\WorkflowIFCConverter\\Operation',
 				'name': '',
 				'checks': [],
 				'operation': ''
@@ -35,45 +35,45 @@
 		});
 
 	/**
-	 * @class OCA.WorkflowPDFConverter.OperationsCollection
+	 * @class OCA.WorkflowIFCConverter.OperationsCollection
 	 *
 	 * collection for all configured operations
 	 */
-	OCA.WorkflowPDFConverter.OperationsCollection =
+	OCA.WorkflowIFCConverter.OperationsCollection =
 		OCA.WorkflowEngine.OperationsCollection.extend({
-			model: OCA.WorkflowPDFConverter.Operation
+			model: OCA.WorkflowIFCConverter.Operation
 		});
 
 	/**
-	 * @class OCA.WorkflowPDFConverter.OperationView
+	 * @class OCA.WorkflowIFCConverter.OperationView
 	 *
 	 * this creates the view for a single operation
 	 */
-	OCA.WorkflowPDFConverter.OperationView =
+	OCA.WorkflowIFCConverter.OperationView =
 		OCA.WorkflowEngine.OperationView.extend({
-			model: OCA.WorkflowPDFConverter.Operation,
+			model: OCA.WorkflowIFCConverter.Operation,
 			render: function() {
 				var $el = OCA.WorkflowEngine.OperationView.prototype.render.apply(this);
 				$el.find('input.operation-operation')
 					.css('width', '400px')
 					.select2({
-						placeholder: t('workflow_pdf_converter', 'Mode…'),
+						placeholder: t('workflow_ifc_converter', 'Mode…'),
 						data: [
 							{
 								id: 'keep;preserve',
-								text: t('workflow_pdf_converter', 'Keep original, preserve existing PDFs'),
+								text: t('workflow_ifc_converter', 'Keep original, preserve existing IFCs'),
 							},
 							{
 								id: 'keep;overwrite',
-								text: t('workflow_pdf_converter', 'Keep original, overwrite existing PDF'),
+								text: t('workflow_ifc_converter', 'Keep original, overwrite existing IFC'),
 							},
 							{
 								id: 'delete;preserve',
-								text: t('workflow_pdf_converter', 'Delete original, preserve existing PDFs'),
+								text: t('workflow_ifc_converter', 'Delete original, preserve existing IFCs'),
 							},
 							{
 								id: 'delete;overwrite',
-								text: t('workflow_pdf_converter', 'Delete original, overwrite existing PDF'),
+								text: t('workflow_ifc_converter', 'Delete original, overwrite existing IFC'),
 							},
 						],
 					});
@@ -81,19 +81,19 @@
 		});
 
 	/**
-	 * @class OCA.WorkflowPDFConverter.OperationsView
+	 * @class OCA.WorkflowIFCConverter.OperationsView
 	 *
 	 * this creates the view for configured operations
 	 */
-	OCA.WorkflowPDFConverter.OperationsView =
+	OCA.WorkflowIFCConverter.OperationsView =
 		OCA.WorkflowEngine.OperationsView.extend({
 			initialize: function() {
 				OCA.WorkflowEngine.OperationsView.prototype.initialize.apply(this, [
-					'OCA\\WorkflowPDFConverter\\Operation'
+					'OCA\\WorkflowIFCConverter\\Operation'
 				]);
 			},
 			renderOperation: function(operation) {
-				var subView = new OCA.WorkflowPDFConverter.OperationView({
+				var subView = new OCA.WorkflowIFCConverter.OperationView({
 					model: operation
 				});
 
@@ -108,9 +108,9 @@
 $(document).ready(function() {
 	OC.SystemTags.collection.fetch({
 		success: function() {
-			new OCA.WorkflowPDFConverter.OperationsView({
-				el: '#workflow_pdf_converter .rules',
-				collection: new OCA.WorkflowPDFConverter.OperationsCollection()
+			new OCA.WorkflowIFCConverter.OperationsView({
+				el: '#workflow_ifc_converter .rules',
+				collection: new OCA.WorkflowIFCConverter.OperationsCollection()
 			});
 		}
 	});

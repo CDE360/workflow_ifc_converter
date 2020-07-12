@@ -9,47 +9,47 @@
 <script>
 import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
 
-const pdfConvertOptions = [
+const ifcConvertOptions = [
 	{
 		id: 'keep;preserve',
-		text: t('workflow_pdf_converter', 'Keep original, preserve existing PDFs')
+		text: t('workflow_ifc_converter', 'Keep original, preserve existing IFCs'),
 	},
 	{
 		id: 'keep;overwrite',
-		text: t('workflow_pdf_converter', 'Keep original, overwrite existing PDF')
+		text: t('workflow_ifc_converter', 'Keep original, overwrite existing IFC'),
 	},
 	{
 		id: 'delete;preserve',
-		text: t('workflow_pdf_converter', 'Delete original, preserve existing PDFs')
+		text: t('workflow_ifc_converter', 'Delete original, preserve existing IFCs'),
 	},
 	{
 		id: 'delete;overwrite',
-		text: t('workflow_pdf_converter', 'Delete original, overwrite existing PDF')
-	}
+		text: t('workflow_ifc_converter', 'Delete original, overwrite existing IFC'),
+	},
 ]
 export default {
-	name: 'ConvertToPdf',
+	name: 'ConvertFromIFC',
 	components: { Multiselect },
 	props: {
 		value: {
-			default: pdfConvertOptions[0],
-			type: String
-		}
+			default: ifcConvertOptions[0],
+			type: String,
+		},
 	},
 	data() {
 		return {
-			options: pdfConvertOptions
+			options: ifcConvertOptions,
 		}
 	},
 	computed: {
 		currentValue() {
-			const newValue = pdfConvertOptions.find(option => option.id === this.value)
+			const newValue = ifcConvertOptions.find(option => option.id === this.value)
 			if (typeof newValue === 'undefined') {
-				return pdfConvertOptions[0]
+				return ifcConvertOptions[0]
 			}
 			return newValue
-		}
-	}
+		},
+	},
 }
 </script>
 
