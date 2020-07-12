@@ -1,0 +1,25 @@
+kind: pipeline
+name: syntax-php7.3
+
+steps:
+  - name: syntax-php7.3
+    image: nextcloudci/php7.3:php7.3-5
+    environment:
+      APP_NAME: workflow_pdf_converter
+      CORE_BRANCH: master
+      DB: sqlite
+    commands:
+      # Pre-setup steps
+      - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
+      - bash ./before_install.sh $APP_NAME $CORE_BRANCH $DB
+      - cd ../server
+      - composer install
+      - ./lib/composer/bin/parallel-lint apps/$APP_NAME/
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
